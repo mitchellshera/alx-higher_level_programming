@@ -1,14 +1,12 @@
 #!/usr/bin/python3
-def to_uper(character):
-    if ord(character) >= 97 and ord(character) <= 122:
-        return (ord(character) - 32)
+def print_last_digit(number):
+    if number >= 0:
+        l_digit = number % 10
     else:
-        return ord(character)
+        l_digit = number % -10
+        l_digit *= -1
 
-
-def uppercase(string):
-    string_new = ""
-    for character in string:
-        string_new += "%c" % to_uper(character)
-    print("{:s}".format(string_new))
+    print("{:d}".format(l_digit), end='')
+    return (l_digit)
+        
     
