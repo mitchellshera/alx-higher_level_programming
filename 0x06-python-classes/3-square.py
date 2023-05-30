@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """Create a Class Square with size and method of area"""
 
+
 class Square:
     """
     This class represents a square.
