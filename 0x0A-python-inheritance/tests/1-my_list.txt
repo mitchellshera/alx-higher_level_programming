@@ -1,5 +1,9 @@
 #!/usr/bin/python3
-MyList = __import__('1-my_list').MyList
+
+
+import importlib
+my_list_module = importlib.import_module('0x0A-python-inheritance.1-my_list')
+MyList = my_list_module.MyList
 
 my_list = MyList()
 my_list.append(9)

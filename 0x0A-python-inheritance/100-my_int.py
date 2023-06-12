@@ -12,11 +12,11 @@ class MyInt(int):
         Override the == operator.
         Returns True if the values are not equal; otherwise, False.
         """
-        return super().__ne__(other)
+        return int(self) != int(other)
 
     def __ne__(self, other):
         """
         Override the != operator.
         Returns True if the values are equal; otherwise, False.
         """
-        return super().__eq__(other)
+        return int(self) == int(other)
