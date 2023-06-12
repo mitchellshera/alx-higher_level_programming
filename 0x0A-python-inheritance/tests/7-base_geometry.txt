@@ -1,0 +1,41 @@
+#!/usr/bin/python3
+"""
+Test file for the BaseGeometry class.
+"""
+
+import unittest
+from io import StringIO
+from contextlib import redirect_stdout
+from base_geometry import BaseGeometry
+
+
+class TestBaseGeometry(unittest.TestCase):
+    def setUp(self):
+        self.bg = BaseGeometry()
+
+    def test_area(self):
+        with self.assertRaises(Exception) as context:
+            self.bg.area()
+        self.assertEqual(str(context.exception), "area() is not implemented")
+
+    def test_integer_validator(self):
+        with self.assertRaises(TypeError) as context:
+            self.bg.integer_validator("test", "string")
+        self.assertEqual(str(context.exception), "test must be an integer")
+
+        with self.assertRaises(ValueError) as context:
+            self.bg.integer_validator("test", -5)
+        self.assertEqual(str(context.exception), "test must be greater than 0")
+
+        # No exception should be raised
+        self.assertIsNone(self.bg.integer_validator("test", 10))
+
+    def test_print_area(self):
+        with StringIO() as output:
+            with redirect_stdout(output):
+                self.bg.print_area()
+                self.assertEqual(output.getvalue(), "Area is not implemented.\n")
+
+
+if __name__ == '__main__':
+    unittest.main()
