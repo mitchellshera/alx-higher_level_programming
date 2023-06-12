@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-lookup = __import__('0-lookup').lookup
+lookup = __import__('0-lookup.py').lookup
 
 class MyClass1(object):
     pass
