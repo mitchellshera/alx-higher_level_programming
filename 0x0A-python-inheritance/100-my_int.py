@@ -7,16 +7,6 @@ class MyInt(int):
     The == and != operators are inverted.
     """
 
-    def __eq__(self, other):
-        """
-        Override the == operator.
-        Returns True if the values are not equal; otherwise, False.
-        """
-        return int(self) != int(other)
-
-    def __ne__(self, other):
-        """
-        Override the != operator.
-        Returns True if the values are equal; otherwise, False.
-        """
-        return int(self) == int(other)
+    def print_sorted(self):
+        """prints the list, but sorted in ascending sort"""
+        print(sorted(self)) 
