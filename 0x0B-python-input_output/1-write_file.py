@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+"""Defines a file-writing function."""
 
 def write_file(filename="", text=""):
     """Write a string to a UTF8 text file.
@@ -10,5 +10,4 @@ def write_file(filename="", text=""):
         The number of characters written.
     """
     with open(filename, mode='w', encoding='utf-8') as file:
-        chars_written = file.write(text)
-    return chars_written
+        return file.write(text)
