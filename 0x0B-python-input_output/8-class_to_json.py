@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """DEfines a python class-to-JSON function"""
 
+
 def class_to_json(obj):
     """Converts an object to a JSON-serializable dictionary representation."""
     json_dict = {}
