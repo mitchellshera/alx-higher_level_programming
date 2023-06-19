@@ -1,13 +1,17 @@
 #!/usr/bin/python3
+"""
+This module contains the "Base" class
+"""
 
 
 import json
 import csv
+import turtle
 
 
 class Base:
-    """Base class to manage id attribute and JSON serialization/deserialization."""
-
+    """A base class"""
+    
     __nb_objects = 0
 
     def __init__(self, id=None):
@@ -185,3 +189,31 @@ class Base:
         This method should be implemented in the subclasses to create instances from CSV rows.
         """
         raise NotImplementedError("Subclasses must implement create_from_csv_row method.")
+
+    @staticmethod
+    def draw(list_rectangles, list_squares):
+        """Draw all the Rectangles and Squares using Turtle graphics."""
+        turtle.setup(width=800, height=600)
+        screen = turtle.Screen()
+        screen.title("Drawing Rectangles and Squares")
+        screen.bgcolor("white")
+
+        def draw_shape(shape):
+            """Draw a shape (Rectangle or Square) using turtle graphics."""
+            turtle.penup()
+            turtle.goto(shape.x, shape.y)
+            turtle.pendown()
+            turtle.fillcolor(shape.color)  # Customize the color as desired
+            turtle.begin_fill()
+            for _ in range(4):
+                turtle.forward(shape.width)
+                turtle.left(90)
+            turtle.end_fill()
+
+        for rectangle in list_rectangles:
+            draw_shape(rectangle)
+
+        for square in list_squares:
+            draw_shape(square)
+
+        turtle.done()
