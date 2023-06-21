@@ -1,135 +1,120 @@
 #!/usr/bin/python3
-
+"""
+Contains tests for Base class
+"""
 
 import unittest
+import inspect
+import pep8
 import json
-import os
-from models.base import Base
+from models import base
+Base = base.Base
+
+
+class TestBaseDocs(unittest.TestCase):
+    """Tests to check the documentation and style of Base class"""
+    @classmethod
+    def setUpClass(cls):
+        """Set up for the doc tests"""
+        cls.base_funcs = inspect.getmembers(Base, inspect.isfunction)
+
+    def test_pep8_conformance_base(self):
+        """Test that models/base.py conforms to PEP8."""
+        pep8style = pep8.StyleGuide(quiet=True)
+        result = pep8style.check_files(['models/base.py'])
+        self.assertEqual(result.total_errors, 0,
+                         "Found code style errors (and warnings).")
+
+    def test_pep8_conformance_test_base(self):
+        """Test that tests/test_models/test_base.py conforms to PEP8."""
+        pep8style = pep8.StyleGuide(quiet=True)
+        result = pep8style.check_files(['tests/test_models/test_base.py'])
+        self.assertEqual(result.total_errors, 0,
+                         "Found code style errors (and warnings).")
+
+    def test_module_docstring(self):
+        """Tests for the module docstring"""
+        self.assertTrue(len(base.__doc__) >= 1)
+
+    def test_class_docstring(self):
+        """Tests for the Base class docstring"""
+        self.assertTrue(len(Base.__doc__) >= 1)
+
+    def test_func_docstrings(self):
+        """Tests for the presence of docstrings in all functions"""
+        for func in self.base_funcs:
+            self.assertTrue(len(func[1].__doc__) >= 1)
 
 
 class TestBase(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        cls.file_name = "Base.json"
+    """Tests to check functionality of Base class"""
+    def test_too_many_args(self):
+        """test too many args to init"""
+        with self.assertRaises(TypeError):
+            b = Base(1, 1)
 
-    def setUp(self):
-        if os.path.exists(self.file_name):
-            os.remove(self.file_name)
+    def test_no_id(self):
+        """Tests id as None"""
+        b = Base()
+        self.assertEqual(b.id, 1)
 
-    def tearDown(self):
-        if os.path.exists(self.file_name):
-            os.remove(self.file_name)
+    def test_id_set(self):
+        """Tests id as not None"""
+        b98 = Base(98)
+        self.assertEqual(b98.id, 98)
 
-    def test_constructor_without_id(self):
-        b1 = Base()
+    def test_no_id_after_set(self):
+        """Tests id as None after not None"""
         b2 = Base()
-        self.assertEqual(b1.id, 1)
         self.assertEqual(b2.id, 2)
 
-    def test_constructor_with_id(self):
-        b = Base(10)
-        self.assertEqual(b.id, 10)
+    def test_nb_private(self):
+        """Tests nb_objects as a private instance attribute"""
+        b = Base(3)
+        with self.assertRaises(AttributeError):
+            print(b.nb_objects)
+        with self.assertRaises(AttributeError):
+            print(b.__nb_objects)
 
-    def test_constructor_with_non_integer_id(self):
-        with self.assertRaises(TypeError):
-            Base("10")
+    def test_to_json_string(self):
+        """Tests regular to json string"""
+        Base._Base__nb_objects = 0
+        d1 = {"id": 9, "width": 5, "height": 6, "x": 7, "y": 8}
+        d2 = {"id": 2, "width": 2, "height": 3, "x": 4, "y": 0}
+        json_s = Base.to_json_string([d1, d2])
+        self.assertTrue(type(json_s) is str)
+        d = json.loads(json_s)
+        self.assertEqual(d, [d1, d2])
 
+    def test_empty_to_json_string(self):
+        """Test for passing empty list/ None"""
+        json_s = Base.to_json_string([])
+        self.assertTrue(type(json_s) is str)
+        self.assertEqual(json_s, "[]")
 
-    def test_to_json_string_empty_list(self):
-        json_string = Base.to_json_string([])
-        self.assertEqual(json_string, "[]")
+    def test_None_to_json_String(self):
+        json_s = Base.to_json_string(None)
+        self.assertTrue(type(json_s) is str)
+        self.assertEqual(json_s, "[]")
 
-    def test_to_json_string_non_empty_list(self):
-        b1 = Base()
-        b2 = Base(10)
-        json_string = Base.to_json_string([b1.to_dictionary(), b2.to_dictionary()])
-        expected_json = '[{"id": 1}, {"id": 10}]'
-        self.assertEqual(json_string, expected_json)
+    def test_from_json_string(self):
+        """Tests regular from_json_string"""
+        json_str = '[{"id": 9, "width": 5, "height": 6, "x": 7, "y": 8}, \
+{"id": 2, "width": 2, "height": 3, "x": 4, "y": 0}]'
+        json_l = Base.from_json_string(json_str)
+        self.assertTrue(type(json_l) is list)
+        self.assertEqual(len(json_l), 2)
+        self.assertTrue(type(json_l[0]) is dict)
+        self.assertTrue(type(json_l[1]) is dict)
+        self.assertEqual(json_l[0],
+                         {"id": 9, "width": 5, "height": 6, "x": 7, "y": 8})
+        self.assertEqual(json_l[1],
+                         {"id": 2, "width": 2, "height": 3, "x": 4, "y": 0})
 
-    def test_from_json_string_empty_string(self):
-        obj_list = Base.from_json_string("")
-        self.assertEqual(obj_list, [])
+    def test_fjs_empty(self):
+        """Tests from_json_string with an empty string"""
+        self.assertEqual([], Base.from_json_string(""))
 
-    def test_from_json_string_non_empty_string(self):
-        json_string = '[{"id": 1}, {"id": 10}]'
-        obj_list = Base.from_json_string(json_string)
-        self.assertEqual(len(obj_list), 2)
-        self.assertEqual(obj_list[0].id, 1)
-        self.assertEqual(obj_list[1].id, 10)
-
-    def test_save_to_file_empty_list(self):
-        Base.save_to_file([])
-        self.assertTrue(os.path.exists(self.file_name))
-        with open(self.file_name, "r") as file:
-            json_data = file.read()
-            self.assertEqual(json_data, "[]")
-
-    def test_save_to_file_non_empty_list(self):
-        b1 = Base()
-        b2 = Base(10)
-        Base.save_to_file([b1, b2])
-        self.assertTrue(os.path.exists(self.file_name))
-        with open(self.file_name, "r") as file:
-            json_data = file.read()
-            expected_json = '[{"id": 1}, {"id": 10}]'
-            self.assertEqual(json_data, expected_json)
-
-    def test_load_from_file_non_existing_file(self):
-        obj_list = Base.load_from_file()
-        self.assertEqual(obj_list, [])
-
-    def test_load_from_file_existing_file(self):
-        b1 = Base()
-        b2 = Base(10)
-        Base.save_to_file([b1, b2])
-
-        obj_list = Base.load_from_file()
-        self.assertEqual(len(obj_list), 2)
-        self.assertEqual(obj_list[0].id, 1)
-        self.assertEqual(obj_list[1].id, 10)
-
-    def test_load_from_file_invalid_json(self):
-        with open(self.file_name, "w") as file:
-            file.write("Invalid JSON")
-
-        obj_list = Base.load_from_file()
-        self.assertEqual(obj_list, [])
-
-    def test_create(self):
-        dictionary = {'id': 1, 'width': 5, 'height': 3, 'x': 2, 'y': 3}
-        b = Base.create(**dictionary)
-        self.assertEqual(b.id, 1)
-        self.assertEqual(b.width, 5)
-        self.assertEqual(b.height, 3)
-        self.assertEqual(b.x, 2)
-        self.assertEqual(b.y, 3)
-
-    def test_create_from_csv_row(self):
-        row = ['1', '5', '3', '2', '3']
-        b = Base.create_from_csv_row(row)
-        self.assertEqual(b.id, 1)
-        self.assertEqual(b.width, 5)
-        self.assertEqual(b.height, 3)
-        self.assertEqual(b.x, 2)
-        self.assertEqual(b.y, 3)
-
-    def test_save_to_file_csv_empty_list(self):
-        Base.save_to_file_csv([])
-        self.assertTrue(os.path.exists("Base.csv"))
-        with open("Base.csv", "r") as file:
-            csv_data = file.read()
-            self.assertEqual(csv_data, "")
-
-    def test_save_to_file_csv_non_empty_list(self):
-        b1 = Base()
-        b2 = Base(10)
-        Base.save_to_file_csv([b1, b2])
-        self.assertTrue(os.path.exists("Base.csv"))
-        with open("Base.csv", "r") as file:
-            csv_data = file.read()
-            expected_csv = "1,0,0,0,0\n10,0,0,0,0\n"
-            self.assertEqual(csv_data, expected_csv)
-
-
-if __name__ == '__main__':
-    unittest.main()
+    def test_fjs_None(self):
+        """Tests from_json_string with an empty string"""
+        self.assertEqual([], Base.from_json_string(None))
