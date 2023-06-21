@@ -21,8 +21,10 @@ class Rectangle(Base):
             y (int): Optional. y-coordinate of the rectangle's position.
             id (int): Optional. ID value to assign to the instance.
 
-        Calls the super class with `id` to utilize the logic of the `__init__` method in the Base class.
-        Assigns the provided arguments `width`, `height`, `x`, and `y` to the corresponding attributes.
+        Calls the super class with `id` to utilize the logic of the
+        `__init__` method in the Base class.
+        Assigns the provided arguments `width`,
+        `height`, `x`, and `y` to the corresponding attributes.
         """
         super().__init__(id)
         self.width = width
@@ -95,6 +97,7 @@ class Rectangle(Base):
         print(("\n" * self.__y) +
               "\n".join(((" " * self.__x) + ("#" * self.__width))
                         for i in range(self.__height)))
+
     def __str__(self):
         """
         Return a string representation of the Rectangle.
@@ -109,8 +112,10 @@ class Rectangle(Base):
         Update the attributes of the Rectangle.
 
         Args:
-            *args: Variable length argument list for no-keyword arguments.
-            **kwargs: Variable length keyworded argument list for key-value arguments.
+            *args: Variable length argument list for
+            no-keyword arguments.
+            **kwargs: Variable length keyworded
+            argument list for key-value arguments.
 
         If *args exists and is not empty, the attributes are assigned based on the no-keyword arguments in the following order:
         1st argument -> id attribute
