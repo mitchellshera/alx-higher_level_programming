@@ -1,3 +1,5 @@
+USE hbtn_0d_tvshows;
+
 --- Retrieve shows and linked genres
 SELECT tv_shows.title, tv_genres.name
 FROM tv_shows
