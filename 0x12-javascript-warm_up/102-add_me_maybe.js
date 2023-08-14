@@ -1,6 +1,7 @@
 #!/usr/bin/node
 
-function incrementAndCall(number, theFunction) {
-    const incrementedNumber = number + 1;
-    theFunction(incrementedNumber);
-  }
+const addMeMaybe = (number, theFunction) => {
+    theFunction(number + 1);
+  };
+  
+  module.exports = { addMeMaybe };
