@@ -1,4 +1,3 @@
-// 6-square.js
 #!/usr/bin/node
 
 const Square = require('./5-square');
