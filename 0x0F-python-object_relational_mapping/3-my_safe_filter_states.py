@@ -27,13 +27,12 @@ def display_values():
 
     cursor.execute("SELECT * FROM states WHERE name = \
                    %s ORDER BY id ASC; ",
-                   [sys.argv[4]])
+                   (sys.argv[4],))
 
     results = cursor.fetchall()
 
     for state in results:
-        if state[1] == sys.argv[4]:
-            print(state)
+        print(state)
 
     cursor.close()
     conn.close()
