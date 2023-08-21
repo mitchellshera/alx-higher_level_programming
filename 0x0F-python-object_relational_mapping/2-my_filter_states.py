@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 '''
-A script that takes in an argument and displays 
-all values where name matches the argument '''
+A script that takes in an argument and displays
+all values where name matches the argument
+'''
 
 import MySQLdb
 import sys
@@ -31,6 +32,7 @@ def display_tables():
             print(state)
     cursor.close()
     conn.close()
+
 
 if __name__ == '__main__':
     display_tables()
