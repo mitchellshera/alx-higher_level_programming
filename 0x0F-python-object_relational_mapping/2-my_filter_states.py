@@ -1,8 +1,7 @@
 #!/usr/bin/python3
 '''
 A script that takes in an argument and displays 
-all values where name matches the argument.
-'''
+all values where name matches the argument '''
 
 import MySQLdb
 import sys
