@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 '''
- a script that deletes all State objects with a name containing the letter a from the database
+ a script that deletes all State objects with a
+ name containing the letter a from the database
 '''
 
 from model_state import State, Base
