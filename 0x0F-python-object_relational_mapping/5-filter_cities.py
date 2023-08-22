@@ -26,11 +26,10 @@ def filter_cities_by_state():
 
         cursor = conn.cursor()
         query = """
-            SELECT cities.name
-            FROM cities
-            JOIN states ON cities.state_id = states.id
-            WHERE states.name = %s
-            ORDER BY cities.id ASC;
+            SELECT c.name FROM cities c INNER JOIN states s ' +
+                'ON s.id = c.state_id WHERE ' +
+                'BINARY s.name = %s ' +
+                'ORDER BY c.id ASC;
         """
         cursor.execute(query, [state_name])
 
@@ -45,6 +44,7 @@ def filter_cities_by_state():
 
     except MySQLdb.Error as e:
         print("MySQL Error:", e)
+
 
 if __name__ == '__main__':
     filter_cities_by_state()
