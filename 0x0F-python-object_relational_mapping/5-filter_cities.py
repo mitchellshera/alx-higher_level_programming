@@ -26,10 +26,10 @@ def filter_cities_by_state():
 
         cursor = conn.cursor()
         query = """
-            SELECT c.name FROM cities c INNER JOIN states s ' +
-                'ON s.id = c.state_id WHERE ' +
-                'BINARY s.name = %s ' +
-                'ORDER BY c.id ASC;
+            SELECT * FROM `cities` as `c` \
+                INNER JOIN `states` as `s` \
+                   ON `c`.`state_id` = `s`.`id` \
+                ORDER BY `c`.`id`
         """
         cursor.execute(query, [state_name])
 
