@@ -32,7 +32,7 @@ def filter_cities_by_state():
             WHERE states.name = %s
             ORDER BY cities.id ASC;
         """
-        cursor.execute(query, (state_name,))
+        cursor.execute(query, [state_name])
 
         cities = cursor.fetchall()
 
