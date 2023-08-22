@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 '''
 A script that takes in an argument and displays
 all values where name matches the argument
