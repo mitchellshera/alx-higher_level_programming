@@ -4,7 +4,7 @@
 import urllib.request
 
 try:
-    with urllib.request.urlopen(https://alx-intranet.hbtn.io/status) as response:
+    with urllib.request.urlopen('https://alx-intranet.hbtn.io/status') as response:
         body = response.read()
         utf8_content = body.decode('utf-8')
 
