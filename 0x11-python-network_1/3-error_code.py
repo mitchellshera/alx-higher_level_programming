@@ -1,8 +1,6 @@
 #!/usr/bin/python3
 
-"""
-Script that takes a request, sends it and shows error messages
-"""
+"""Script that takes a request, sends it and shows error messages"""
 
 if __name__ == "__main__":
     import sys
