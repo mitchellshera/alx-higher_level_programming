@@ -1,19 +1,12 @@
 #!/usr/bin/node
 const fs = require('fs');
-const path = require('path');
-
-// Check if the correct number of command-line arguments are provided
-if (process.argv.length !== 3) {
-  console.error('Usage: ./0-readme.js <file_path>');
-  process.exit(1);
-}
 
 const filePath = process.argv[2];
 
-fs.readFile(filePath, 'utf-8', (err, data) => {
-  if (err) {
-    console.error(`Error: ${err}`);
+fs.readFile(filePath, 'utf8', function (error, content) {
+  if (error) {
+    console.error(`Error reading file: ${error}`);
   } else {
-    console.log(data);
+    console.log(content);
   }
 });
