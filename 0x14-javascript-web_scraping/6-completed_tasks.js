@@ -1,7 +1,7 @@
 #!/usr/bin/node
 
 const request = require('request');
-const apiUrl = 'https://jsonplaceholder.typicode.com/todos';
+const apiUrl = process.argv[2];
 
 request(apiUrl, (error, response, body) => {
   if (error) {
@@ -15,19 +15,18 @@ request(apiUrl, (error, response, body) => {
   }
 
   try {
-    const todos = JSON.parse(body);
-
+    const tasks = JSON.parse(body);
     const completedTasksByUser = {};
-    
-    todos.forEach((todo) => {
-      if (todo.completed) {
-        if (!completedTasksByUser[todo.userId]) {
-          completedTasksByUser[todo.userId] = 1;
+
+    for (const task of tasks) {
+      if (task.completed) {
+        if (completedTasksByUser[task.userId]) {
+          completedTasksByUser[task.userId]++;
         } else {
-          completedTasksByUser[todo.userId]++;
+          completedTasksByUser[task.userId] = 1;
         }
       }
-    });
+    }
 
     for (const userId in completedTasksByUser) {
       console.log(`User ID ${userId}: ${completedTasksByUser[userId]} completed tasks`);
