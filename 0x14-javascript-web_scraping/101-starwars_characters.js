@@ -26,7 +26,7 @@ request(apiUrl, (error, response, body) => {
   }
 });
 
-function fetchAndPrintCharacters(characterUrls, index) {
+function fetchAndPrintCharacters (characterUrls, index) {
   if (index >= characterUrls.length) {
     return;
   }
